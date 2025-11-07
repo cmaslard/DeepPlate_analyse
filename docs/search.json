@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "DeepPlate Analyse",
+    "section": "",
+    "text": "Preface\nContributors: Corentin Maslard / Joop E.M Vermeer\nThis project is an extension of the research work carried out by the Laboratory of cell and molecular biology.\nGrants and institutional support:",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#preface",
+    "href": "index.html#preface",
+    "title": "DeepPlate Analyse",
+    "section": "",
+    "text": "Guide being written\n\n\n\nThis guide is still incomplete. The complete repository (documentation, data, script for analyse data, etc.) will be available shortly at this link: https://github.com/cmaslard/DeepPlate_analyse.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThe code for the DeepPlate algorithm is available here: https://github.com/cmaslard/DeepPlate\n\n\n\n\n\n \n\n\n\n\n\n\n\nMore informations about my work :\n\n\n\n\n\n\n\n\n Personal website\n Email\n Github\n Linkedin\n\n\n\n ORCID\n ResearchGate\n Google Scholar\n\n\n\n X (Twitter)\n HAL\n CV",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#licence",
+    "href": "index.html#licence",
+    "title": "DeepPlate Analyse",
+    "section": "Licence",
+    "text": "Licence\nThis document is made available under the terms of the Licence Creative Commons Attribution - Non Commercial Use - Share Alike 4.0 International.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#package-used-in-this-quarto-document",
+    "href": "index.html#package-used-in-this-quarto-document",
+    "title": "DeepPlate Analyse",
+    "section": "Package used in this quarto document",
+    "text": "Package used in this quarto document\n\n\nCode\nlibrary(renv) # install.packages(\"renv\")\nlibrary(dplyr)\n\ndeps &lt;- renv::dependencies(path = \".\", progress = F, quiet = T)\n\nunique_packages &lt;- unique(deps$Package)\nwriteLines(unique_packages, here::here(\"src/packages_use_in_this_quarto.txt\"))\n\ndata.frame(\n  Package = unique_packages,\n  Version = sapply(unique_packages, function(pkg) {\n    tryCatch(as.character(packageVersion(pkg)), error = function(e) NA)\n  }),\n  stringsAsFactors = FALSE\n) %&gt;% \n  #knitr::kable(caption = \"List of packages used in this document\", row.names = FALSE)\n  DT::datatable(.,\n  filter = \"top\",\n  class = 'cell-border stripe',\n  rownames = FALSE\n)",
+    "crumbs": [
+      "Preface"
+    ]
+  }
+]
