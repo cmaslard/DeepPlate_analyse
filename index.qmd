@@ -1,0 +1,101 @@
+---
+comments: false
+bibliography: references.bib
+editor_options: 
+  chunk_output_type: console
+---
+
+## Preface {.unnumbered}
+**Contributors:** [Corentin Maslard](https://cmaslard.xyz) / [Joop E.M Vermeer](https://www.unine.ch/biographie/joop-vermeer)
+
+This project is an extension of the research work carried out by the [Laboratory of cell and molecular biology](https://www.unine.ch/lbmc).
+
+::: callout-note
+## Guide being written
+
+This guide is still incomplete. The complete repository (documentation, data, script for analyse data, etc.) will be available shortly at this link: <https://github.com/cmaslard/DeepPlate_analyse>.
+:::
+
+::: callout-important
+The code for the DeepPlate algorithm is available here: <https://github.com/cmaslard/DeepPlate>
+:::
+
+**Grants and institutional support:**
+
+<style>
+#logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  align-items: center;
+  gap: 15px;
+  margin-top: 1em;
+}
+#logos img {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
+}
+</style>
+
+::: {#logos}
+[![](src/ico/partner/snf.png)](https://snf.ch/)
+[![](src/ico/partner/unine.png)](https://www.unine.ch/)
+:::
+
+::::::: {.callout-note collapse="true"}
+## More informations about my work :
+
+:::::: columns
+::: {.column width="33%"}
+-   [<img src="src/ico/icons8-plante-en-croissance-windows-11-color-96.ico" style="width: 20px; vertical-align: middle;"/> Personal website](https://cmaslard.xyz)
+-   [{{< iconify fa6-solid:envelope >}} Email](mailto:maslard.corentin@gmail.com)
+-   [{{< iconify fa6-brands github >}} Github](https://github.com/cmaslard)
+-   [{{< iconify fa6-brands linkedin >}} Linkedin](https://www.linkedin.com/in/corentin-maslard)
+:::
+
+::: {.column width="33%"}
+-   [{{< iconify fa6-brands:orcid >}} ORCID](https://orcid.org/0000-0002-6951-1963)
+-   [{{< iconify fa6-brands:researchgate >}} ResearchGate](https://www.researchgate.net/profile/Corentin-Maslard)
+-   [{{< iconify academicons:google-scholar >}} Google Scholar](https://scholar.google.com/citations?user=TsztyiMAAAAJ&hl)
+:::
+
+::: {.column width="33%"}
+-   [{{< iconify fa6-brands square-x-twitter >}} X (Twitter)](https://x.com/cmaslard)
+-   [{{< iconify academicons:hal >}} HAL](https://cv.hal.science/corentinmaslard)
+-   [{{< iconify pepicons-pop:cv >}} CV](https://docs.google.com/document/d/1oCgrdjnAJuVjgocx3F2kmlbJxlqa6uWrSgqm5fWRhpA/edit?usp=sharing)
+:::
+::::::
+:::::::
+
+## Licence {.unnumbered}
+
+This document is made available under the terms of the [Licence Creative Commons Attribution - Non Commercial Use - Share Alike 4.0 International](http://creativecommons.org/licenses/by-nc-sa/4.0/).
+
+![](src/ico/by-nc-sa.png){width="160"}
+
+## Package used in this quarto document
+
+```{r, message=F, warning=F}
+library(renv) # install.packages("renv")
+library(dplyr)
+
+deps <- renv::dependencies(path = ".", progress = F, quiet = T)
+
+unique_packages <- unique(deps$Package)
+writeLines(unique_packages, here::here("src/packages_use_in_this_quarto.txt"))
+
+data.frame(
+  Package = unique_packages,
+  Version = sapply(unique_packages, function(pkg) {
+    tryCatch(as.character(packageVersion(pkg)), error = function(e) NA)
+  }),
+  stringsAsFactors = FALSE
+) %>% 
+  #knitr::kable(caption = "List of packages used in this document", row.names = FALSE)
+  DT::datatable(.,
+  filter = "top",
+  class = 'cell-border stripe',
+  rownames = FALSE
+)
+```

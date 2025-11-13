@@ -1,0 +1,104 @@
+project:
+  type: book
+  output-dir: docs
+lang: en
+lightbox:
+  match: auto
+  effect: fade
+  desc-position: right
+  loop: false
+
+book:
+  title: "DeepPlate Analyse"
+  subtitle: "DeepPlate is a deep learning pipeline for analysing plate images of Arabidopsis and Brachypodium, and this page presents its main segmentation performance, example outputs, and key limitations to guide future improvements."
+  #cover-image: src/f83dfd81918f-image-files.jpg
+  favicon: src/ico/ico_DeepPlate_analyse.svg
+  back-to-top-navigation: true
+  author:
+    - name: Corentin Maslard
+      degrees: PhD
+      email: maslard.corentin@gmail.com
+      orcid: 0000-0002-6951-1963
+      url: https://cmaslard.xyz
+      affiliations: UniNE
+      attributes:
+        corresponding: true
+  date: today
+  date-format: long
+  abstract:  "DeepPlate is a deep learning pipeline designed to analyse plate images of Arabidopsis thaliana and Brachypodium distachyon, including roots, seeds and aerial tissues. Starting from raw time-series images, it performs preprocessing, segmentation and trait extraction to generate quantitative descriptors of plant growth and architecture. On this page, I summarise the main performance metrics and example outputs of DeepPlate. I show how well the models segment different organs, how robust the pipeline is across experiments, and how the extracted traits relate to manual measurements. The goal is to document what works, where the current limitations are, and how these results can guide future improvements of the tool."
+  chapters:
+    - index.qmd
+    - report/test_iaa_mutant.qmd
+    #- report/0_intro.qmd
+    - part: "**🛠️️ Common functions**"
+      chapters: 
+        - report/common_function/analysis_function.qmd
+        - report/common_function/visualization_function.qmd
+    - references.qmd
+  search:
+    type: overlay
+  repo-url: https://github.com/cmaslard/DeepPlate_analyse/
+  repo-actions: [source, issue]
+  downloads: [pdf]
+  sharing: [twitter, facebook, linkedin]
+  output-file: the_book_pdf
+  sidebar: 
+    border: true
+    logo: src/ico/ico_DeepPlate_analyse.svg
+    collapse-level: 1
+  page-footer: 
+    border: true
+    background: light
+    left: 
+      - icon: badge-cc-fill
+        url: https://creativecommons.org/licenses/by-nc-sa/4.0/
+      - text: "Corentin Maslard 2024"
+        href: "https://cmaslard.xyz/" 
+      
+    center:
+      - text: "{{< iconify fa6-solid:envelope >}}"
+        href: "mailto:maslard.corentin@gmail.com"
+        aria-label: "envelope logo for email"
+      - text: "{{< iconify fa6-brands:github >}}"
+      - icon: github
+        href: https://github.com/cmaslard/phd_soybean_2021_2024/
+      - text: "{{< iconify fa6-brands:linkedin >}}"
+        href: https://www.linkedin.com/in/corentin-maslard
+      - text: "{{< iconify fa6-brands square-x-twitter >}}"
+        href: https://x.com/cmaslard
+      - text: "{{< iconify fa6-brands bluesky >}}"
+        href: https://bsky.app/profile/cmaslard.bsky.social
+      - text: "{{< iconify fa6-brands:orcid >}}"
+        href: "https://orcid.org/0000-0002-6951-1963"
+        aria-label: "ORCID logo linking to ORCID account"
+      - text: "{{< iconify fa6-brands:researchgate >}}"
+        href: "https://www.researchgate.net/profile/Corentin-Maslard"
+        aria-label: "ResearchGate logo linking to ResearchGate account"
+      - text: "{{< iconify academicons:google-scholar >}}"
+        href: https://scholar.google.com/citations?user=TsztyiMAAAAJ&hl
+        target: blank
+      - text: "{{< iconify academicons:hal >}}"
+        href: https://cv.hal.science/corentinmaslard
+        aria-label: "HAL account"
+      - text: "{{< iconify pepicons-pop:cv >}}"
+        href: "https://docs.google.com/document/d/1oCgrdjnAJuVjgocx3F2kmlbJxlqa6uWrSgqm5fWRhpA/edit?usp=sharing"
+        aria-label: "CV"
+    right:
+        <span class="faux-block">Made with <iconify-icon icon="line-md:heart-twotone"></iconify-icon>, <iconify-icon icon="line-md:coffee-twotone-loop"></iconify-icon>, {{< iconify fa6-brands r-project >}} and [Quarto](https://quarto.org/)</span> |
+        <span class="faux-block">[View the source at {{< iconify fa6-brands github >}} GitHub](https://github.com/cmaslard/ScBdLR_init_2025/)</span>
+      
+bibliography: [references.bib]
+
+format:
+  html:
+    grid:
+      body-width: 1000px
+    code-fold: true
+    code-tools: true
+    theme: 
+      light: [cosmo, src/theme-light.scss]
+      dark: [cosmo, src/theme-dark.scss]
+    execute:
+      echo: true
+      warning: false
+editor: source

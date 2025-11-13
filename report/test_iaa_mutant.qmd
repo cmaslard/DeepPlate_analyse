@@ -1,0 +1,132 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+## IAA mutant test  
+
+```{r}
+# pkg
+library(tidyverse)
+library(readr)
+library(dplyr)
+library(purrr)
+library(lubridate)
+library(readxl)
+library(stringr)
+library(forcats)
+library(DT)
+
+# src
+source(here::here("src/function/fig_export.R")) # This function saves a given plot (plot_x) as both a PDF and a high-resolution PNG file at specified dimensions.
+
+# cosmetics
+compartment_pallet=read_excel(here::here("data/color_palette.xlsm")) %>%
+      filter(set == "compartment_plant") %>%
+      dplyr::select(color, treatment) %>%
+      pull(color) %>%
+      setNames(read_excel(here::here("data/color_palette.xlsm")) %>%
+                 filter(set == "compartment_plant") %>%
+                 pull(treatment)
+               )
+# path
+data_path <- "/Volumes/IBIOLdata_storage/LBMC_data/cmaslard/results/"
+project <- "At2"
+```
+
+
+**Data importation**
+```{r, eval = F}
+dirs <- list.dirs(paste(sep = "/", data_path, project), full.names = TRUE, recursive = FALSE)
+path_taskid <- dirs[nchar(basename(dirs)) <= 10]
+
+files <- file.path(path_taskid, "result_nb_pixel.csv")
+files <- files[file.exists(files)]
+
+all_nb_pixel_plate <- files %>%
+  map(\(f) read_csv(f, show_col_types = FALSE)) %>%
+  bind_rows() %>%
+  separate(
+    col  = Label,
+    into = c("species", "taskid", "plate_num"),
+    sep  = "_",
+    remove = FALSE,         # garde la colonne Label d'origine
+    extra  = "merge",
+    fill   = "right"
+  ) %>%
+  mutate(
+    plate_num = suppressWarnings(as.integer(plate_num)) # optionnel: numérique
+  ) %>% mutate(capture_datetime = ymd_hms(capture_datetime, tz = "Europe/Zurich")) %>% 
+  dplyr::group_by(species, plate_num) %>%
+  mutate(
+    t0            = min(capture_datetime, na.rm = TRUE),
+    elapsed_hours = as.numeric(difftime(capture_datetime, t0, units = "hours")),
+    elapsed_days  = as.numeric(difftime(capture_datetime, t0, units = "days"))
+  ) %>%
+  ungroup() %>%
+  dplyr::select(-t0) %>% 
+  dplyr::rename(compartment = Region) %>%
+  # Met en Title Case et fixe l'ordre des niveaux
+  mutate(
+    compartment = str_to_title(compartment),
+    compartment = fct_relevel(compartment, "Shoot", "Root", "Seed")
+  )
+
+# export
+write_csv(here::here("data/At2/output/nb_pixel_plate.csv"), x= all_nb_pixel_plate)
+```
+
+**Visual verification**
+```{r, eval =F}
+p_date<-ggplot(all_nb_pixel_plate, aes(x = capture_datetime, y = object)) +
+  geom_line(aes(group = plate_num, color = compartment), linewidth = 0.5, alpha = 0.7) +
+  geom_point(alpha = 0.6, color = "black", size = 0.3)+
+  facet_grid(.~compartment)+
+  scale_color_manual(values = compartment_pallet) +
+  #scale_fill_manual(values = compartment_pallet) +
+  labs(x = "Capture of the image",
+       y = "Pixel count",
+       color = "Compartment",
+       title = "Evolution of pixel count over time") +
+  theme_minimal()
+
+p_hour<-ggplot(all_nb_pixel_plate, aes(x = elapsed_hours, y = object)) +
+  geom_line(aes(group = plate_num, color = compartment), linewidth = 0.5, alpha = 0.7) +
+  geom_point(alpha = 0.6, color = "black", size = 0.3)+
+  facet_grid(.~compartment)+
+  scale_x_continuous(labels = function(x) paste0(x, "h")) +
+  scale_color_manual(values = compartment_pallet) +
+  #scale_fill_manual(values = compartment_pallet) +
+  labs(x = "Hour since the begining of the experiment",
+       y = "Object",
+       color = "Compartment",
+       title = "Evolution of pixel count over the experiment") +
+  theme_minimal()
+
+#export
+fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_date")), p_date, height_i = 5, width_i = 8, res_i = 600)
+fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_hour")), p_hour, height_i = 5, width_i = 8, res_i = 600)
+```
+
+::: panel-tabset
+### Growth time  
+![](plot/At2/verif/pixel_count_hour.png)
+
+### Growth period  
+![](plot/At2/verif/pixel_count_date.png)
+
+### Table
+```{r, echo=F}
+all_nb_pixel_plate<-read_csv(here::here("data/At2/output/nb_pixel_plate.csv"))
+datatable(all_nb_pixel_plate, options = list(searchHighlight = TRUE), filter = 'top')
+
+```
+
+:::
+
+**Data cleaning**
+```{r, eval =F}
+
+```
+
