@@ -105,8 +105,8 @@ p_hour<-ggplot(all_nb_pixel_plate, aes(x = elapsed_hours, y = object)) +
   theme_minimal()
 
 #export
-fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_date2")), p_date, height_i = 5, width_i = 8, res_i = 600)
-fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_hour2")), p_hour, height_i = 5, width_i = 8, res_i = 600)
+fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_date")), p_date, height_i = 5, width_i = 8, res_i = 600)
+fig_export(here::here(paste0("report/plot/At2/verif/pixel_count_hour")), p_hour, height_i = 5, width_i = 8, res_i = 600)
 ```
 
 ::: panel-tabset
